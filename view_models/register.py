@@ -1,3 +1,4 @@
+from flask import current_app
 from werkzeug.utils import redirect
 from .forms.register import RegisterForm
 from x_app.view_model import XFormPage

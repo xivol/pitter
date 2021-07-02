@@ -1,7 +1,8 @@
+from flask import current_app
 from werkzeug.utils import redirect
 
-from views.register import RegisterViewModel
-from views.login import LoginViewModel
+from view_models.register import RegisterViewModel
+from view_models.login import LoginViewModel
 from x_app.controller import XController
 
 

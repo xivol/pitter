@@ -1,0 +1,66 @@
+body {
+    background-color: #eeeeee;
+}
+
+.h7 {
+    font-size: 0.8rem;
+}
+
+.card {
+    margin: 1em 0 1em 0;
+}
+
+.gedf-wrapper {
+    margin-top: 0.97rem;
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+      max-width: 400px;
+  }
+    .modal-content {
+      padding: 1rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .gedf-main {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+
+    .gedf-card {
+        margin-bottom: 2.77rem;
+    }
+}
+
+/**Reset Bootstrap*/
+.dropdown-toggle::after {
+    content: none;
+    display: none;
+}
+
+.close {
+    margin-top: -1.5rem;
+}
+
+
+.form-title {
+  margin: -2rem 0rem 2rem;
+}
+
+.btn-round {
+  border-radius: 3rem;
+}
+
+.delimiter {
+  padding: 1rem;
+}
+
+.signup-section {
+  padding: 0.3rem 0rem;
+}
+
+.post-image {
+    max-width: 100%;
+}

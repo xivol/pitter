@@ -32,7 +32,7 @@ class FirstApp(XApp):
         UserController.add_to_app(self, url_prefix='/user')
 
     def setup_data_providers(self):
-        current_app.data_provider = SQLiteDataProvider("../flask_mvp/static/data/blogs.sqlite")
+        current_app.data_provider = SQLiteDataProvider("../pitter/data/blogs.sqlite")
         User.setup_table()
         News.setup_table()
 

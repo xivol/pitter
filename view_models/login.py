@@ -1,7 +1,7 @@
-
+from flask import current_app
 from werkzeug.utils import redirect
 
-from views.forms.login import LoginForm
+from view_models.forms.login import LoginForm
 from x_app.view_model import XFormPage
 
 

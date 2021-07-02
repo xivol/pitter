@@ -1,14 +1,14 @@
 from x_app.view_model import XPageModel
-from models.news import News
+from models.posts import Posts
 
 
 class LatestNewsViewModel(XPageModel):
-    __template_name__ = 'index.html'
+    __template_name__ = 'layout.html'
 
     def __init__(self):
-        super().__init__('LatestNews')
+        super().__init__('Latest')
 
     @property
     def news(self):
-        return News.all()
+        return Posts.all()
 
