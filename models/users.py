@@ -16,7 +16,7 @@ class User(XModel, UserMixin, SerializerMixin):
     hashed_password = Column(String, nullable=True)
     created_date = Column(DateTime, default=datetime.datetime.now)
 
-    news = Relation("News", back_populates='user')
+    posts = Relation("Posts", back_populates='user')
 
     def __init__(self, name, about, email, password_hash):
         self.name = name

@@ -12,7 +12,7 @@ class XDataProvider:
         print(f"Подключение к базе данных по адресу {connection_string}")
 
         self.__engine = sqlalchemy.create_engine(connection_string, echo=echo)
-        self.__session_maker = orm.sessionmaker(bind=self.__engine,expire_on_commit = False)
+        self.__session_maker = orm.sessionmaker(bind=self.__engine, expire_on_commit = False)
 
     def connect(self):
         return self.__session_maker()

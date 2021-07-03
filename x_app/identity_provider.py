@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 
 
 class XIdentityProvider(LoginManager):
@@ -23,3 +23,9 @@ class XIdentityProvider(LoginManager):
     @abstractmethod
     def verify(self, **userdata):
         pass
+
+
+class XIdentityMixin:
+    @property
+    def user(self):
+        return current_user

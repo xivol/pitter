@@ -5,7 +5,7 @@ from x_app.data_provider import SQLiteDataProvider
 from x_app.identity_provider import XIdentityProvider
 
 from models.users import User
-from models.news import News
+from models.posts import Posts
 
 
 
@@ -26,15 +26,15 @@ class FirstApp(XApp):
         pass
 
     def setup_blueprints(self):
-        from controllers.news import NewsController
-        NewsController.add_to_app(self, url_prefix='/')
+        from controllers.posts import PostsController
+        PostsController.add_to_app(self, url_prefix='/')
         from controllers.users import UserController
         UserController.add_to_app(self, url_prefix='/user')
 
     def setup_data_providers(self):
         current_app.data_provider = SQLiteDataProvider("../pitter/data/blogs.sqlite")
         User.setup_table()
-        News.setup_table()
+        Posts.setup_table()
 
     def setup_identity_providers(self):
         current_app.identity_provider.user_loader(User.get)

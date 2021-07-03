@@ -19,7 +19,6 @@
 </head>
 
 <body>
-    <!--import './components/user.html' as macroUserComponents -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -30,8 +29,11 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
+    {% import './components/user.html' as macroUserComponents %}
+    {% import './components/posts.html' as macroPostComponents %}
+
     <nav class="navbar navbar-light bg-blue">
-        <a href="#" class="navbar-brand">
+        <a href="/" class="navbar-brand">
             <img src="{{url_for('static', filename='icon.svg')}}" width="30" height="30" alt="">
             Pitter
         </a>
@@ -45,96 +47,30 @@
                 </div>
             </div>
         </form>-->
-        <form>
-            <button class="btn btn-primary" type="button" onclick="logout()">Logout</button>
-        </form>
+        {% block navigation %}
+        {% endblock %}
     </nav>
-
-    <div style="width:14%; position: absolute; left:43%; right: 43%; z-index: 99;">
-        <div class="list-group search-layout">
-        </div>
-    </div>
-
-    <div class="modal-layout">
-
-    </div>
 
     <div style="z-index: -1; position: absolute;" class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
+                {% if model.user.is_authenticated %}
                 <!-- macroUserComponents.displayUser(model) -->
+                {% endif %}
             </div>
 
             <div class="col-md-6 gedf-main">
-
-                <!--- \\\\\\\UserPage -->
-                <div class="card gedf-card">
-                    <div class="card-header">
-                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
-                                    aria-controls="posts" aria-selected="true">Make
-                                    a publication</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
-                                    aria-selected="false" href="#images">Images</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="posts" role="tabpanel"
-                                aria-labelledby="posts-tab">
-                                <div class="form-group">
-                                    <label class="sr-only" for="message">post</label>
-                                    <textarea class="form-control custom-text-input" id="message" rows="3"
-                                        placeholder="What are you thinking?"></textarea>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-                                <div class="form-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFile">
-                                        <label class="custom-file-label" for="customFile">Upload image</label>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="sr-only" for="message">post</label>
-                                    <textarea class="form-control custom-text-input" rows="1"
-                                        placeholder="What are you thinking?"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="btn-toolbar justify-content-between">
-                                <div class="btn-group">
-                                    <button type="submit" onclick="addPost()" class="btn btn-primary">Share</button>
-                                </div>
-                                <div class="btn-group">
-                                    <button id="btnGroupDrop1" type="button" class="btn btn-link dropdown-toggle"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="visibility-icon fa fa-globe"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right visibility-list" id="public" aria-labelledby="btnGroupDrop1">
-                                        <li class="dropdown-item" onclick="changeVisibilityId('public', 'fa-globe')"><i class="fa fa-globe"></i> Public</li>
-                                        <li class="dropdown-item" onclick="changeVisibilityId('friends', 'fa-users')"><i class="fa fa-users"></i> Friends</li>
-                                        <li class="dropdown-item" onclick="changeVisibilityId('personal', 'fa-user')"><i class="fa fa-user"></i> Just me</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- UserPage -->
-                <div class="posts-layout">
-                </div>
+                {% block content %}
+                {% endblock %}
             </div>
 
             <div class="col-md-3">
-                <!-- To be filled -->
+            <!-- To be filled -->
             </div>
         </div>
     </div>
+
+
     <script src="{{url_for('static', filename='js/auth.js')}}"></script>
     <script src="{{url_for('static', filename='js/posts.js')}}"></script>
     <script src="{{url_for('static', filename='js/profiles.js')}}"></script>

@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block navigation %}
+<form>
+    <button class="btn btn-primary" type="button" onclick="window.location = '/user/register';">Sign Up</button>
+</form>
+{% endblock %}
+
+{% block content %}
+    <h1>Авторизация</h1>
+    <form action="" method="post">
+        {{ model.form.hidden_tag() }}
+        <p>
+            {{ model.form.email.label }}<br>
+            {{ model.form.email(class="form-control", type="email") }}<br>
+            {% for error in model.form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ model.form.password.label }}<br>
+            {{ model.form.password(class="form-control", type="password") }}<br>
+            {% for error in model.form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ model.form.remember_me() }} {{ model.form.remember_me.label }}</p>
+        <p>{{ model.form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+    </form>
+{% endblock %}
