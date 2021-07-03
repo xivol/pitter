@@ -1,16 +1,8 @@
 {% extends "layout.html" %}
 
-{% block navigation %}
-<form>
-    {% if model.user.is_authenticated %}
-        <button class="btn btn-secondary" type="button" onclick="window.location = '/user/logout';">Logout</button>
-        <button class="btn btn-primary" type="button" onclick="window.location = '/user/settings';">Settings</button>
-    {% else %}
-        <button class="btn btn-secondary" type="button" onclick="window.location = '/user/login';">Log In</button>
-        <button class="btn btn-primary" type="button" onclick="window.location = '/user/register';">Sign Up</button>
-    {% endif %}
-</form>
-{% endblock %}
+{% import './components/user.html' as macroUserComponents %}
+{% import './components/posts.html' as macroPostComponents %}
+
 
 {% block content %}
         {% if model.user.is_authenticated %}

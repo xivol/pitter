@@ -1,17 +1,17 @@
-from flask import current_app
+from flask import current_app, url_for
 from werkzeug.utils import redirect
 
 from view_models.forms.login import LoginForm
-from x_app.identity_provider import XIdentityMixin
+from x_app.navigation import XNavigationMixin, XNav
 from x_app.view_model import XFormPage
 
 from models.users import User
 
-class LoginViewModel(XFormPage, XIdentityMixin):
+class LoginViewModel(XFormPage, XNavigationMixin):
     __template_name__ = 'login.html'
 
     def __init__(self):
-        super().__init__("Login")
+        super().__init__("Sign In")
 
     def on_form_success(self, form):
         user = User.query(User.email == form.email.data).first()
@@ -24,3 +24,8 @@ class LoginViewModel(XFormPage, XIdentityMixin):
 
     def make_form(self):
         return LoginForm()
+
+    @property
+    def navigation(self):
+            return [XNav('Sign Up', url_for('user.register'), 'btn-outline-primary')]
+

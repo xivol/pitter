@@ -29,14 +29,24 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-    {% import './components/user.html' as macroUserComponents %}
-    {% import './components/posts.html' as macroPostComponents %}
-
-    <nav class="navbar navbar-light bg-blue">
-        <a href="/" class="navbar-brand">
-            <img src="{{url_for('static', filename='icon.svg')}}" width="30" height="30" alt="">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a href="/" class="navbar-brand mb-0 h1">
+            <img src="{{url_for('static', filename='logo.svg')}}" width="30" height="30" alt="">
             Pitter
         </a>
+        {% if model.navigation|length > 0 %}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <form class="navbar-nav ml-auto">
+                    {% for nav in model.navigation %}
+                    <button class="mx-1 nav-item btn {{nav.style}}" type="button"
+                            onclick="window.location = '{{nav.url}}';">{{nav.title}}</button>
+                    {% endfor %}
+                </form>
+            </div>
+        {% endif %}
         <!--<form class="form-inline">
             <div class="input-group">
                 <input type="text" class="form-control" id="search-user">
@@ -47,25 +57,21 @@
                 </div>
             </div>
         </form>-->
-        {% block navigation %}
-        {% endblock %}
     </nav>
 
     <div style="z-index: -1; position: absolute;" class="container-fluid gedf-wrapper">
         <div class="row">
             <div class="col-md-3">
-                {% if model.user.is_authenticated %}
-                <!-- macroUserComponents.displayUser(model) -->
-                {% endif %}
+                {% block left_panel %}
+                {% endblock %}
             </div>
-
             <div class="col-md-6 gedf-main">
                 {% block content %}
                 {% endblock %}
             </div>
-
             <div class="col-md-3">
-            <!-- To be filled -->
+                {% block right_panel %}
+                {% endblock %}
             </div>
         </div>
     </div>

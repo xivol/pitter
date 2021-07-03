@@ -1,13 +1,7 @@
 {% extends "layout.html" %}
 
-{% block navigation %}
-<form>
-    <button class="btn btn-primary" type="button" onclick="window.location = '/user/register';">Sign Up</button>
-</form>
-{% endblock %}
-
 {% block content %}
-    <h1>Авторизация</h1>
+    <h1>{{model.title}}</h1>
     <form action="" method="post">
         {{ model.form.hidden_tag() }}
         <p>

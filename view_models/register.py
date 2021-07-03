@@ -1,12 +1,12 @@
-from flask import current_app
+from flask import current_app, url_for
 from werkzeug.utils import redirect
 
 from view_models.forms.register import RegisterForm
-from x_app.identity_provider import XIdentityMixin
+from x_app.navigation import XNav, XNavigationMixin
 from x_app.view_model import XFormPage
 
 
-class RegisterViewModel(XFormPage, XIdentityMixin):
+class RegisterViewModel(XFormPage, XNavigationMixin):
     __template_name__ = 'register.html'
 
     def __init__(self):
@@ -26,4 +26,9 @@ class RegisterViewModel(XFormPage, XIdentityMixin):
 
     def on_form_error(self, form):
         return self.render_template()
+
+    @property
+    def navigation(self):
+        return [XNav('Sign In', url_for('user.login'), 'btn-outline-primary')]
+
 
