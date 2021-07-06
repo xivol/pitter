@@ -1,4 +1,5 @@
 from datetime import datetime
+from flask import current_app
 from sqlalchemy import *
 from sqlalchemy.orm import relation as Relation
 
@@ -23,3 +24,15 @@ class Post(XModel, SerializerMixin):
         self.share_options = SHARE_OPTIONS.index(share_options)
         self.created_date = created
 
+    @property
+    def editable(self):
+        return self.user_id == current_app.identity_provider.current_user.id
+
+    @property
+    def removable(self):
+        return self.user_id == current_app.identity_provider.current_user.id
+
+    @property
+    def time_from_now(self):
+        print(datetime.now()-self.created_date)
+        return str(datetime.now()-self.created_date)

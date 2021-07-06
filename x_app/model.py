@@ -36,6 +36,7 @@ class XModel(object):
 
     @classmethod
     def find(cls):
+        raise NotImplementedError()
         return cls.query().filter()
 
     @classmethod

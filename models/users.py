@@ -1,4 +1,6 @@
 import datetime
+
+from flask import current_app
 from sqlalchemy import *
 from sqlalchemy.orm import relation as Relation
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -30,3 +32,14 @@ class User(XModel, UserMixin, SerializerMixin):
 
     def __repr__(self):
         return f'<User> {self.id} {self.username}'
+
+    @property
+    def profile_image(self):
+        return 'https://i.pravatar.cc/150'
+
+    @property
+    def can_post(self):
+        print(":::::::")
+        cu = current_app.identity_provider.current_user
+        print(cu)
+        return cu.is_authenticated and self.id == cu.id

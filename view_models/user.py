@@ -1,9 +1,7 @@
-from flask import current_app, url_for, request, abort
-from flask_login import current_user
+from flask import current_app, url_for, abort
 from werkzeug.utils import redirect
 
 from view_models.forms.post import NewTextPostForm
-from x_app.identity_provider import XIdentityMixin
 from x_app.navigation import XNavigationMixin, XNav
 from x_app.view_model import XPageModel
 
@@ -43,7 +41,7 @@ class UserFeedViewModel(XPageModel, XNavigationMixin):
             return Post.all()
 
     @property
-    def form(self):
+    def new_post_form(self):
         frm = NewTextPostForm()
         if self.user.is_authenticated:
             frm.author_id.data = self.user.id
@@ -51,7 +49,8 @@ class UserFeedViewModel(XPageModel, XNavigationMixin):
 
     @property
     def navigation(self):
-        if not current_user.is_authenticated:
+        print(current_app.identity_provider.current_user)
+        if not current_app.identity_provider.current_user.is_authenticated:
             return [XNav('Sign In', url_for('auth.login'), 'btn-outline-secondary'),
                     XNav('Sign Up', url_for('auth.register'), 'btn-outline-primary')]
         else:

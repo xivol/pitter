@@ -1,11 +1,6 @@
 import sqlalchemy
 import sqlalchemy.orm as orm
 
-from .model import XModel
-
-# from flask_sqlalchemy import *
-# XDataProvider(SQLAlchemy)
-
 
 class XDataProvider:
     def __init__(self, connection_string, echo=False):

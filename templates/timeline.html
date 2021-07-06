@@ -10,8 +10,8 @@
 {% endblock %}
 
 {% block content %}
-        {% if model.user.is_authenticated %}
-            {{ posts.new_post(model.form) }}
+        {% if model.user.can_post %}
+            {{ posts.new_post(model.new_post_form) }}
         {% endif %}
 
         <div class="posts-layout">

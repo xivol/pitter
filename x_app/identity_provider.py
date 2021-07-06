@@ -28,17 +28,15 @@ class XIdentityProvider(LoginManager):
     def find_user(self, **userdata):
         pass
 
+    @property
+    def current_user(self):
+        return current_user
+
     def try_login(self, **userdata):
         u = self.find_user(**userdata)
         if not u:
-            return False
+            return None
         if self.verify(u, **userdata):
             self.login(u, remember=userdata['remember_me'])
-            return True
-        return False
-
-
-class XIdentityMixin:
-    @property
-    def user(self):
-        return current_user
+            return u
+        return None

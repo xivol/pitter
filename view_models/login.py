@@ -15,8 +15,9 @@ class LoginViewModel(XFormPage, XNavigationMixin):
         super().__init__("Sign In")
 
     def on_form_success(self, form):
-        if current_app.identity_provider.try_login(**form.get_user_data()):
-            return redirect(f'/user/{form.username.data}')
+        u = current_app.identity_provider.try_login(**form.get_user_data())
+        if u is not None:
+            return redirect(f'/user/{u.username}')
         else:
             self.on_form_error(form)
 

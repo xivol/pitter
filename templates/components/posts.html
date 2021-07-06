@@ -1,17 +1,19 @@
 {% macro text_post(post_data) -%}
  <div class="card gedf-card main-post-div" id="{{post_data.id}}">
-        <div class="card-header">
+     <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="mr-2">
-                        <img class="rounded-circle" width="45" src="http://127.0.0.1:5000/post/get-image?image_id={post_data.profile_image_id ? post_data.profile_image_id : ''}&is_profile=true" alt="">
+                        <img class="rounded-circle" width="45" src="{{post_data.user.profile_image}}" alt="">
                     </div>
                     <div class="ml-2">
-                        <div class="h5 m-0">{{post_data.first_name}} {{post_data.last_name}}</div>
-                        <div class="h7 text-muted" id="{{post_data.user_id}}">@{{post_data.username}}</div>
+                        <div class="h5 m-0">{{post_data.user.first_name}} {{post_data.user.last_name}}</div>
+                        <div class="h7"><a class="text-muted"href="{{ url_for('user.feed', username=post_data.user.username) }}">
+                            @{{post_data.user.username}}</a>
                         </div>
                     </div>
-                    {post_data.editable || post_data.removable ?
+                    </div>
+                    {% if post_data.editable or post_data.removable %}
                         `<div>
                             <div class="dropdown">
                                 <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
@@ -19,144 +21,53 @@
                                     <i class="fa fa-ellipsis-h"></i>
                                 </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                    {post_data.editable ?
-                                        `<a class="dropdown-item" href="#"><i class="fa fa-edit mr-2"></i>Edit</a>`
-                                        : ''
-                                    }
-                                    { post_data.removable ?
-                                        `<a class="dropdown-item btn-outline-danger" onclick="deletePost(this)"><i class="fa fa-trash mr-2"></i>Delete</a>`
-                                        : ''
-                                    }
+                                    {% if post_data.editable %}
+                                        <a class="dropdown-item" href="{{ url_for('posts.update', post_id = post_data.id)}}">
+                                            <i class="fa fa-edit mr-2"></i>Edit
+                                        </a>
+                                    {% endif %}
+                                    {% if post_data.removable %}
+                                        <a class="dropdown-item btn-outline-danger" href="{{ url_for('posts.delete', post_id = post_data.id)}}">
+                                            <i class="fa fa-trash mr-2"></i>Delete
+                                        </a>
+                                    {% endif %}
                                     </div>
-
                             </div>
-                        </div>`
-                        : ''
-                    }}
-                </div>
-            </div>
-
-            <div class="card-body">
-                <div class="text-muted h7 mb-2">
-                    <a class="card-link" href="#">
-                    <i class="fa fa-clock-o"></i> {{post_data.time_from_now}}{post_data.edited ? ' (edited)' : ''}
-                    </a>
-                </div>
-                <p class="card-text">
-                   {{post_data.content}}
-                </p>
-            </div>
-            <div class="card-footer">
-                <button class="btn btn-primary card-link" onclick="changeLike(this)"><i class="fa fa-star"></i> {{post_data.likes}} Like</button>
-                <!--<a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                    <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a> -->
-            </div>
-        </div>
- </div>
-{%- endmacro %}
-
-{% macro image_post(post_data) -%}
- <div class="card gedf-card main-post-div" id="{{ post_data.id }}">
-        <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="mr-2">
-                        <img class="rounded-circle" width="45" src="http://127.0.0.1:5000/post/get-image?image_id={post_data.profile_image_id}&is_profile=true" alt="">
-                    </div>
-                    <div class="ml-2">
-                        <div class="h5 m-0">{{post_data.first_name}} {{post_data.last_name}}</div>
-                        <div class="h7 text-muted" id="{{post_data.user_id}}">@{{post_data.username}}</div>
                         </div>
-                    </div>
-                    {post_data.editable || post_data.removable ?
-                        `<div>
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-ellipsis-h"></i>
-                                </button>
-                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                    {post_data.editable ?
-                                        `<a class="dropdown-item" href="#"><i class="fa fa-edit mr-2"></i>Edit</a>`
-                                        : ''
-                                    }
-                                    { post_data.removable ?
-                                        `<a class="dropdown-item btn-outline-danger" onclick="deletePost(this)"><i class="fa fa-trash mr-2"></i>Delete</a>`
-                                        : ''
-                                    }
-                                    </div>
-                                
-                            </div>
-                        </div>`
-                        : ''
-                    }
+                    {% endif %}
                 </div>
             </div>
-
-            <div class="card-body">
+     <div class="card-body">
                 <div class="text-muted h7 mb-2">
-                    <a class="card-link" href="#">
-                    <i class="fa fa-clock-o"></i> {{post_data.time_from_now}}{post_data.edited ? ' (edited)' : ''}
+                    <a class="card-link" href="{{url_for('posts.single', post_id = post_data.id)}}">
+                    <i class="fa fa-clock-o"></i> {{post_data.time_from_now}}
                     </a>
                 </div>
-                <img class="rounded float-left mr-3 post-image" src="http://127.0.0.1:5000/post/get-image?image_id={{post_data.image_id}}"/>
                 <p class="card-text">
                    {{post_data.content}}
                 </p>
             </div>
-            <div class="card-footer">
-                <button class="btn btn-primary card-link" onclick="changeLike(this)"><i class="fa fa-star"></i> {{post_data.likes}} Like</button>
-                <!--<a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                    <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a> -->
-            </div>
-        </div>
+<!--            <div class="card-footer">-->
+<!--                <button class="btn btn-primary card-link" onclick="changeLike(this)"><i class="fa fa-star"></i> {{post_data.likes}} Like</button>-->
+<!--                <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>-->
+<!--                <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>-->
+<!--            </div>-->
  </div>
 {%- endmacro %}
-
 
 {% macro new_post(form) -%}
 <div class="card gedf-card">
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab"
-                    aria-controls="posts" aria-selected="true">Make
-                    a publication</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images"
-                    aria-selected="false" href="#images">Images</a>
-            </li>
-        </ul>
+    <div class="card-header bg-primary">
+        <span class="text-light">Make a publication</span>
     </div>
     <div class="card-body">
-        <form class="tab-content" id="myTabContent"
-              action="{{ url_for('posts.new') }}" method="post">
+        <form action="{{ url_for('posts.new') }}" method="post">
             {{ form.hidden_tag() }}
-            <div class="tab-pane fade show active" id="posts" role="tabpanel"
-                aria-labelledby="posts-tab">
+            <div class="">
                 <div class="form-group">
-                    {{ form.message.label}}
-<!--                    <label class="sr-only" for="message">post</label>-->
-                    {{ form.message(class="form-control custom-text-input") }}
-<!--                    <textarea class="form-control custom-text-input" id="message" rows="3"-->
-<!--                        placeholder="What are you thinking?"></textarea>-->
+                    {{ form.message(class="form-control custom-text-input", placeholder="What's happening?") }}
                 </div>
             </div>
-            <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
-<!--                <div class="form-group">-->
-<!--                    <div class="custom-file">-->
-<!--                         form.image(class="custom-file-input" , type="file")-->
-<!--                         form.image.label(class="custom-file-label")-->
-
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="form-group">-->
-<!--                    {{ form.message.label}}-->
-<!--                    {{ form.message(class="form-control custom-text-input") }}-->
-<!--                </div>&ndash;&gt;-->
-            </div>
-
             <div class="btn-toolbar justify-content-between">
                 <div class="btn-group">
                     <!--<button type="submit" onclick="addPost()" class="btn btn-primary">Share</button>-->
