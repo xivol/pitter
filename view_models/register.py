@@ -16,19 +16,17 @@ class RegisterViewModel(XFormPage, XNavigationMixin):
         return RegisterForm()
 
     def on_form_success(self, form):
-        current_app.identity_provider.register(
-            name=form.name.data,
-            email=form.email.data,
-            about=form.about.data,
-            password=form.password.data
-        )
-        return redirect(f'/user/{form.name.data}')
+        try:
+            current_app.identity_provider.register(**form.get_user_data())
+        except:
+            self.on_form_error(form)
+        return redirect(f'/user/{form.username.data}')
 
     def on_form_error(self, form):
         return self.render_template()
 
     @property
     def navigation(self):
-        return [XNav('Sign In', url_for('user.login'), 'btn-outline-primary')]
+        return [XNav('Sign In', url_for('auth.login'), 'btn-outline-primary')]
 
 

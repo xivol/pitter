@@ -78,7 +78,7 @@ function addPost(){
     //                     if (response.status === 200)
     //                         response.json()
     //                             .then(post => {
-    //                             let posts_layout = $('.posts-layout')
+    //                             let posts_layout = $('.feed-layout')
     //                             console.log(posts_layout)
     //                             post.image_id
     //                                 ? posts_layout.prepend(getHtmlImagePost(post))

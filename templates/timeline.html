@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% import './components/user_profile.html' as user_profile%}
+{% import './components/posts.html' as posts %}
+
+{% block left_panel %}
+    {% if not model.user.is_anonymous %}
+        {{ user_profile.render_full(model.user) }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+        {% if model.user.is_authenticated %}
+            {{ posts.new_post(model.form) }}
+        {% endif %}
+
+        <div class="posts-layout">
+            {% for post in model.feed %}
+                {{ posts.text_post(post) }}
+            {% endfor %}
+        </div>
+{% endblock %}

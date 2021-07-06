@@ -2,7 +2,7 @@ from flask import current_app
 from inflection import pluralize
 
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
-
+from sqlalchemy import func
 
 class XModel(object):
 
@@ -22,9 +22,9 @@ class XModel(object):
     def query(cls, *filters):
         session = cls.__make_new_session()
         if len(filters):
-            return session.query(cls).filter(*filters)
+            return session.query(cls).autoflush(False).filter(*filters)
         else:
-            return session.query(cls)
+            return session.query(cls).autoflush(False)
 
     @classmethod
     def all(cls):
@@ -42,30 +42,6 @@ class XModel(object):
     def count(cls):
         session = cls.__make_new_session()
         return session.query(func.count('*')).select_from(cls).scalar()
-
-    @classmethod
-    def add(cls, *items):
-        session = cls.__make_new_session()
-        if len(items) > 1:
-            session.add_all(items)
-        else:
-            session.add(items[0])
-        session.commit()
-        session.close()
-
-    @classmethod
-    def remove(cls, *items):
-        session = cls.__make_new_session()
-        for item in items:
-            session.delete(item)
-        session.commit()
-        session.close()
-
-    @classmethod
-    def update(cls, *items):
-        session = cls.__make_new_session()
-        session.commit()
-        session.close()
 
 
 XModel = declarative_base(cls=XModel)

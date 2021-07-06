@@ -17,23 +17,37 @@ class Unique:
 
 
 class RegisterForm(FlaskForm):
-    name = StringField('Имя пользователя', [
-        Length(min=4, max=25),
-        Unique(User.name)
+    first_name = StringField('Firstname', [
+        Length(min=2, max=25)
     ])
-    email = EmailField('Почта', [
+    last_name = StringField('Lastname', [
+        Length(min=2, max=25)
+    ])
+    username = StringField('Username', [
+        Length(min=4, max=25),
+        Unique(User.username)
+    ])
+    email = EmailField('Email', [
         Length(min=6, max=35),
         Unique(User.email)
     ])
 
-    password = PasswordField('Пароль', [
+    password = PasswordField('Password', [
         DataRequired(),
         EqualTo('password_confirm', message='Passwords must match')
     ])
-    password_confirm = PasswordField('Повторите пароль', [DataRequired()])
+    password_confirm = PasswordField('Repeat Password', [DataRequired()])
 
-    about = TextAreaField("Немного о себе", [
+    about = TextAreaField("Write about yourself", [
         Optional(),
         Length(min=2, max=256)
     ])
-    submit = SubmitField('Войти')
+    submit = SubmitField('Sign Up')
+
+    def get_user_data(self):
+        return {'username': self.username.data,
+                'email': self.email.data,
+                'password': self.password.data,
+                'first_name': self.first_name.data,
+                'last_name': self.last_name.data,
+                'about': self.about.data}

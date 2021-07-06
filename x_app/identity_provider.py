@@ -17,12 +17,25 @@ class XIdentityProvider(LoginManager):
         return check_password_hash(user.hashed_password, password)
 
     @abstractmethod
-    def register(self, **userdata):
+    def register(self, user=None, **userdata):
         pass
 
     @abstractmethod
-    def verify(self, **userdata):
+    def verify(self, user=None, **userdata):
         pass
+
+    @abstractmethod
+    def find_user(self, **userdata):
+        pass
+
+    def try_login(self, **userdata):
+        u = self.find_user(**userdata)
+        if not u:
+            return False
+        if self.verify(u, **userdata):
+            self.login(u, remember=userdata['remember_me'])
+            return True
+        return False
 
 
 class XIdentityMixin:

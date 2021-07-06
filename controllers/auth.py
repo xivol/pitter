@@ -6,7 +6,7 @@ from view_models.login import LoginViewModel
 from x_app.controller import XController
 
 
-class UserController(XController):
+class AuthController(XController):
     def setup_endpoints(self):
         self.register_view_model('/register', RegisterViewModel, 'register')
         self.register_view_model('/login', LoginViewModel, 'login')

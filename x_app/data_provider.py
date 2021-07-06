@@ -20,6 +20,27 @@ class XDataProvider:
     def create(self, model_class):
         model_class.__table__.create(bind=self.__engine, checkfirst=True)
 
+    def add(self, *items):
+        session = self.connect()
+        if len(items) > 1:
+            session.add_all(items)
+        else:
+            session.add(items[0])
+        session.commit()
+        session.close()
+
+    def remove(self, *items):
+        session = self.connect()
+        for item in items:
+            session.delete(item)
+        session.commit()
+        session.close()
+
+    def update(self, *items):
+        session = self.connect()
+        session.commit()
+        session.close()
+
 
 class SQLiteDataProvider(XDataProvider):
     def __init__(self, filename, echo=False):

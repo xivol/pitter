@@ -3,7 +3,6 @@ from inflection import underscore
 import flask
 
 
-
 class XController:
     def __init__(self, **blueprint_config):
         self.__bp = flask.Blueprint(
@@ -29,15 +28,14 @@ class XController:
         if 'model_config' in config:
             model_config = config.pop('model_config')
         self.__bp.add_url_rule(rule,
-                             view_func=view_model.as_view(endpoint, **model_config),
-                             **config)
+                               view_func=view_model.as_view(endpoint, **model_config),
+                               **config)
 
     def register_view_func(self, rule, view_func, endpoint, **config):
         self.__bp.add_url_rule(rule,
                                view_func=view_func,
                                endpoint=endpoint,
                                **config)
-
 
     def register_in_app(self, application, **config):
         application.register_blueprint(self.__bp, **config)

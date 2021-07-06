@@ -1,11 +1,5 @@
 {% extends "layout.html" %}
 
-{% block navigation %}
-<form>
-    <button class="btn btn-primary" type="button" onclick="window.location = '/user/login';">Log In</button>
-</form>
-{% endblock %}
-
 {% block content %}
     <h1>{{model.title}}</h1>
     {% if model.message %}
@@ -43,9 +37,27 @@
             {% endfor %}
         </p>
         <p>
-            {{ model.form.name.label }}<br>
-            {{ model.form.name(class="form-control") }}<br>
-            {% for error in model.form.name.errors %}
+            {{ model.form.username.label }}<br>
+            {{ model.form.username(class="form-control") }}<br>
+            {% for error in model.form.username.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+         <p>
+            {{ model.form.first_name.label }}<br>
+            {{ model.form.first_name(class="form-control") }}<br>
+            {% for error in model.form.first_name.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+                 <p>
+            {{ model.form.last_name.label }}<br>
+            {{ model.form.last_name(class="form-control") }}<br>
+            {% for error in model.form.last_name.errors %}
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
                 </p>

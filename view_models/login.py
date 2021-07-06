@@ -7,6 +7,7 @@ from x_app.view_model import XFormPage
 
 from models.users import User
 
+
 class LoginViewModel(XFormPage, XNavigationMixin):
     __template_name__ = 'login.html'
 
@@ -14,10 +15,10 @@ class LoginViewModel(XFormPage, XNavigationMixin):
         super().__init__("Sign In")
 
     def on_form_success(self, form):
-        user = User.query(User.email == form.email.data).first()
-        if user and current_app.identity_provider.check_password(user, form.password.data):
-            current_app.identity_provider.login(user, remember=form.remember_me.data)
-        return redirect(f'/user/{user.name}')
+        if current_app.identity_provider.try_login(**form.get_user_data()):
+            return redirect(f'/user/{form.username.data}')
+        else:
+            self.on_form_error(form)
 
     def on_form_error(self, form):
         return super().render_template()
@@ -27,5 +28,4 @@ class LoginViewModel(XFormPage, XNavigationMixin):
 
     @property
     def navigation(self):
-            return [XNav('Sign Up', url_for('user.register'), 'btn-outline-primary')]
-
+        return [XNav('Sign Up', url_for('auth.register'), 'btn-outline-primary')]

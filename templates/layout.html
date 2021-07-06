@@ -39,6 +39,16 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!--<form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search-user">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="button-search">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>-->
                 <form class="navbar-nav ml-auto">
                     {% for nav in model.navigation %}
                     <button class="mx-1 nav-item btn {{nav.style}}" type="button"
@@ -47,16 +57,7 @@
                 </form>
             </div>
         {% endif %}
-        <!--<form class="form-inline">
-            <div class="input-group">
-                <input type="text" class="form-control" id="search-user">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button" id="button-search">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>-->
+
     </nav>
 
     <div style="z-index: -1; position: absolute;" class="container-fluid gedf-wrapper">

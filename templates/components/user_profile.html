@@ -1,10 +1,10 @@
-{% macro userProfile(user) -%}
+{% macro render_full(user) -%}
     <div class="card">
         <div class="card-body">
             {% if user.profile_image is not none %}
                 {% set profile_image = user.profile_image %}
             {% else %}
-                {% set profile_image = "" %}
+                {% set profile_image = "https://via.placeholder.com/150" %}
             {% endif %}
             <div class="image mb-2"><img class="rounded-circle" width="150" src="http://127.0.0.1:8000/post/get-image?image_id={{ profile_image }}&is_profile=true" alt=""></div>
             <div class="h5">{{ user.first_name }} {{ user.last_name }}</div>
@@ -15,15 +15,15 @@
             <div class="h7">{{ user.description }}
             </div>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div class="h6 text-muted">Followers</div>
-                <div class="h5">{{ user.num_of_followers }}</div>
-            </li>
-            <li class="list-group-item">
-                <div class="h6 text-muted">Following</div>
-                <div class="h5">{{ user.num_of_subscriptions }}</div>
-            </li>
-        </ul>
+<!--        <ul class="list-group list-group-flush">-->
+<!--            <li class="list-group-item">-->
+<!--                <div class="h6 text-muted">Followers</div>-->
+<!--                <div class="h5">{{ user.num_of_followers }}</div>-->
+<!--            </li>-->
+<!--            <li class="list-group-item">-->
+<!--                <div class="h6 text-muted">Following</div>-->
+<!--                <div class="h5">{{ user.num_of_subscriptions }}</div>-->
+<!--            </li>-->
+<!--        </ul>-->
     </div>
 {%- endmacro %}
