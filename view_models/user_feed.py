@@ -31,7 +31,7 @@ class UserFeedViewModel(XPageModel, NavigationViewModel):
     def feed(self):
         # TODO: filter public
         if self.user is not None:
-            return self.user.posts
+            return sorted(self.user.posts,key=lambda p: p.created_date, reverse=True)
         else:
             return Post.all()
 

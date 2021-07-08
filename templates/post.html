@@ -11,6 +11,12 @@
 
 {% block content %}
     <div class="posts-layout">
-        {{ posts.text_post(model.post, model.urls) }}
+        {% if request.endpoint == 'user.post' %}
+            {{ posts.text_post(model.post, model.urls) }}
+        {%elif request.endpoint == 'user.post-edit' %}
+            {{ posts.edit_post(model.form, model.post) }}
+        {%elif request.endpoint == 'user.post-delete' %}
+            {{ posts.delete_post(model.form, model.post) }}
+        {% endif %}
     </div>
 {% endblock %}

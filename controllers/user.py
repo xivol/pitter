@@ -4,7 +4,7 @@ from x_app.controller import XController
 from controllers.params.user import USER_PARAM
 from controllers.params.post import POST_PARAM
 from view_models.user_feed import UserFeedViewModel
-from view_models.user_post import UserPostViewModel, EditUserPostViewModel
+from view_models.user_post import UserPostViewModel, EditUserPostViewModel, DeleteUserPostViewModel
 
 
 class UserController(XController):
@@ -13,7 +13,7 @@ class UserController(XController):
                                     EditUserPostViewModel,
                                     'post-edit')
         super().register_view_model(f'/{USER_PARAM}/post/{POST_PARAM}/delete',
-                                    UserPostViewModel,
+                                    DeleteUserPostViewModel,
                                     'post-delete')
 
         post_urls = {'post': lambda p: self.url_for('post', p),

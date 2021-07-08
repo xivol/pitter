@@ -6,7 +6,7 @@ from models.posts import Post, SHARE_OPTIONS
 
 
 class NewTextPostForm(FlaskForm):
-    author_id = HiddenField('Author',[DataRequired()])
+    author_id = HiddenField('Author', [DataRequired()])
     message = TextAreaField('Message', [DataRequired()])
     visibility = SelectField('Visibility', choices=SHARE_OPTIONS)
     submit = SubmitField('Share')
@@ -17,19 +17,32 @@ class NewTextPostForm(FlaskForm):
                     share_options=self.visibility.data)
 
 
-class EditTextPostForm(FlaskForm):
-    author_id = HiddenField('Author',[DataRequired()])
+class BasicTextPostForm(FlaskForm):
+    author_id = HiddenField('Author', [DataRequired()])
     post_id = HiddenField('Post', [DataRequired()])
-    message = TextAreaField('Message', [DataRequired()])
-    visibility = SelectField('Visibility', choices=SHARE_OPTIONS)
     confirm = SubmitField('Confirm')
     cancel = SubmitField('Cancel', render_kw={'formnovalidate': True})
 
-    def set_post(self):
-        return Post(author_id=int(self.author_id.data),
-                    content=self.message.data,
-                    share_options=self.visibility.data)
+    def set_post(self, post):
+        self.author_id.data = post.user_id
+        self.post_id.data = post.id
 
+
+class EditTextPostForm(BasicTextPostForm):
+    message = TextAreaField('Edit message:', [DataRequired()])
+    visibility = SelectField('Visibility', choices=SHARE_OPTIONS)
+
+    def set_post(self, post):
+        super().set_post(post)
+        self.message.data = post.content
+        self.visibility.data = SHARE_OPTIONS[post.share_options]
+
+
+class DeleteTextPostForm(BasicTextPostForm):
+    def __init__(self):
+        super().__init__()
+        self.title = 'Delete message?'
+        self.message = ''
 
 # from flask_wtf.file import FileField, FileAllowed, FileRequired
 # from flask_uploads import UploadSet, IMAGES
