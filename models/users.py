@@ -39,7 +39,5 @@ class User(XModel, UserMixin, SerializerMixin):
 
     @property
     def can_post(self):
-        print(":::::::")
         cu = current_app.identity_provider.current_user
-        print(cu)
         return cu.is_authenticated and self.id == cu.id

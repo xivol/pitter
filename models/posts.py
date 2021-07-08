@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import current_app
+from flask import current_app, url_for
 from sqlalchemy import *
 from sqlalchemy.orm import relation as Relation
 
@@ -20,9 +20,8 @@ class Post(XModel, SerializerMixin):
 
     def __init__(self, author_id, content, share_options=SHARE_OPTIONS[0], created=datetime.now()):
         self.user_id = author_id
-        self.content = content
-        self.share_options = SHARE_OPTIONS.index(share_options)
         self.created_date = created
+        self.update(content, share_options)
 
     @property
     def editable(self):
@@ -34,5 +33,9 @@ class Post(XModel, SerializerMixin):
 
     @property
     def time_from_now(self):
-        print(datetime.now()-self.created_date)
-        return str(datetime.now()-self.created_date)
+        # print(datetime.now() - self.created_date)
+        return str(datetime.now() - self.created_date)
+
+    def update(self, content, share_options):
+        self.content = content
+        self.share_options = SHARE_OPTIONS.index(share_options)

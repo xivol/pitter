@@ -1,4 +1,5 @@
 from flask import current_app
+from flask_sqlalchemy_session import current_session
 from inflection import pluralize
 
 from sqlalchemy.ext.declarative import declared_attr, declarative_base
@@ -16,15 +17,15 @@ class XModel(object):
 
     @classmethod
     def __make_new_session(cls):
-        return current_app.data_provider.connect()
+        return current_session
 
     @classmethod
     def query(cls, *filters):
         session = cls.__make_new_session()
         if len(filters):
-            return session.query(cls).autoflush(False).filter(*filters)
+            return session.query(cls).autoflush(True).filter(*filters)
         else:
-            return session.query(cls).autoflush(False)
+            return session.query(cls).autoflush(True)
 
     @classmethod
     def all(cls):

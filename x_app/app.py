@@ -1,8 +1,7 @@
 from abc import abstractmethod
-from flask import Flask, current_app
-from flask_login import LoginManager
+from flask import Flask
+from flask_sqlalchemy_session import flask_scoped_session
 
-from x_app.identity_provider import XIdentityProvider
 
 
 class XApp(Flask):
@@ -16,6 +15,7 @@ class XApp(Flask):
 
         if data:
             self.data_provider = data
+            self.__db_scope = data.setup_scope(self)
         if identity:
             self.identity_provider = identity
             identity.init_app(app=self)

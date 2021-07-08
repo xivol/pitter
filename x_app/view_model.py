@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from flask import render_template, abort
+from flask import render_template, abort, request, current_app
 from flask.views import View
 from jinja2 import TemplateNotFound
 
@@ -24,8 +24,12 @@ class XViewModel(View):
         for param in self.__request_params__:
             self[param] = request_kwargs.get(param)
 
-    @abstractmethod
     def dispatch_request(self, *args, **kwargs):
+        self.parse_params(kwargs)
+        return self.on_request(request)
+
+    @abstractmethod
+    def on_request(self, request):
         pass
 
 
@@ -33,8 +37,7 @@ class XPageModel(XViewModel):
     def __init__(self, title):
         self.title = title
 
-    def dispatch_request(self, *args, **kwargs):
-        super().parse_params(kwargs)
+    def on_request(self, request):
         return self.render_template()
 
 
@@ -45,13 +48,15 @@ class XFormPage(XPageModel):
         super().__init__(title)
         self.form = None
 
-    def dispatch_request(self, *args, **kwargs):
-        super().parse_params(kwargs)
+    def on_request(self, request):
         self.form = self.make_form()
-        if self.form.validate_on_submit():
-            return self.on_form_success(self.form)
+        if request.method == 'POST':
+            if self.form.validate_on_submit():
+                return self.on_form_success(self.form)
+            else:
+                return self.on_form_error(self.form)
         else:
-            return self.on_form_error(self.form)
+            return super().render_template()
 
     @abstractmethod
     def make_form(self):

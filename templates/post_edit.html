@@ -10,13 +10,7 @@
 {% endblock %}
 
 {% block content %}
-        {% if model.user.can_post %}
-            {{ posts.new_post(model.new_post_form) }}
-        {% endif %}
-
-        <div class="posts-layout">
-            {% for post in model.feed %}
-                {{ posts.text_post(post, model.urls) }}
-            {% endfor %}
-        </div>
+    <div class="posts-layout">
+        {{ posts.edit_post(model.form, model.post) }}
+    </div>
 {% endblock %}

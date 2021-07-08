@@ -22,7 +22,11 @@ class UserIdentity(XIdentityProvider):
         return user and self.check_password(user, userdata['password'])
 
     def find_user(self, **userdata):
-        return User.query(User.email == userdata['email']).first()
+        if 'email' in userdata:
+            return User.query(User.email == userdata['email']).first()
+        if 'username' in userdata:
+            return User.query(User.username == userdata['username']).first()
+        return None
 
 
 class FirstApp(XApp):
@@ -38,7 +42,6 @@ class FirstApp(XApp):
         UserController.add_to_app(self, url_prefix='/user')
 
     def setup_data_providers(self):
-        current_app.data_provider = SQLiteDataProvider("../pitter/data/blogs.sqlite")
         User.setup_table()
         Post.setup_table()
 
@@ -47,5 +50,7 @@ class FirstApp(XApp):
 
 
 if __name__ == '__main__':
-    app = FirstApp(config='application.cfg', identity=UserIdentity())
+    app = FirstApp(config='application.cfg',
+                   identity=UserIdentity(),
+                   data=SQLiteDataProvider("../pitter/data/blogs.sqlite"))
     app.start()
