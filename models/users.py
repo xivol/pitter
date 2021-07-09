@@ -27,8 +27,8 @@ class User(XModel, UserMixin):
         self.first_name = first_name
         self.last_name = last_name
         self.description = about
-        self.username = username
-        self.email = email
+        self.username = username.lower()
+        self.email = email.lower()
         self.hashed_password = password_hash
 
     def __repr__(self):

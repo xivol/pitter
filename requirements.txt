@@ -4,8 +4,11 @@ jinja2
 
 flask
 flask_login
+
 wtforms
+email_validator
 flask_wtf
+
 sqlalchemy
 flask_sqlalchemy_session
 
