@@ -61,8 +61,12 @@ class FirstApp(XApp):
         self.identity_provider.user_loader(User.get)
 
 
-if __name__ == '__main__':
+def start():
     app = FirstApp(config='application.cfg',
                    identity=UserIdentity,
                    data=XDataProvider)
     app.start()
+
+
+if __name__ == '__main__':
+    start()
