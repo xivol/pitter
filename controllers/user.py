@@ -1,4 +1,4 @@
-from flask import url_for
+from flask import url_for, current_app
 
 from x_app.controller import XController
 from controllers.params.user import USER_PARAM
@@ -16,21 +16,25 @@ class UserController(XController):
                                     DeleteUserPostViewModel,
                                     'post-delete')
 
-        post_urls = {'post': lambda p: self.url_for('post', p),
-                     'edit': lambda p: self.url_for('post-edit', p),
-                     'delete': lambda p: self.url_for('post-delete', p),
-                     'feed': lambda p: self.url_for('feed', p)}
-
         super().register_view_model(f'/{USER_PARAM}/post/{POST_PARAM}',
                                     UserPostViewModel,
                                     'post',
-                                    model_config=post_urls)
+                                    model_config=self.get_url_providers())
         super().register_view_model(f'/{USER_PARAM}',
                                     UserFeedViewModel,
                                     'feed',
-                                    model_config=post_urls)
+                                    model_config=self.get_url_providers())
 
-    def url_for(self, endpoint, post):
-        params = {USER_PARAM.name: post.user.username,
-                  POST_PARAM.name: post.id}
-        return url_for(f'{self.blueprint_name()}.{endpoint}', **params)
+    @classmethod
+    def url_for(cls, endpoint, post):
+        params = {USER_PARAM.name: post.user.username}
+        if 'post' in endpoint:
+            params[POST_PARAM.name] = post.id
+        return url_for(f'{cls.blueprint_name()}.{endpoint}', **params)
+
+    @staticmethod
+    def get_url_providers():
+        return {'post': lambda p: UserController.url_for('post', p),
+                'edit': lambda p: UserController.url_for('post-edit', p),
+                'delete': lambda p: UserController.url_for('post-delete', p),
+                'feed': lambda p: UserController.url_for('feed', p)}

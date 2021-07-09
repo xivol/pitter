@@ -21,13 +21,16 @@ class RegisterForm(FlaskForm):
         Length(min=2, max=25)
     ])
     last_name = StringField('Lastname', [
+        Optional(),
         Length(min=2, max=25)
     ])
     username = StringField('Username', [
-        Length(min=4, max=25),
+        DataRequired(),
+        Length(min=3, max=25),
         Unique(User.username)
     ])
     email = EmailField('Email', [
+        DataRequired(),
         Length(min=6, max=35),
         Unique(User.email)
     ])
@@ -36,7 +39,9 @@ class RegisterForm(FlaskForm):
         DataRequired(),
         EqualTo('password_confirm', message='Passwords must match')
     ])
-    password_confirm = PasswordField('Repeat Password', [DataRequired()])
+    password_confirm = PasswordField('Repeat Password', [
+        DataRequired()
+    ])
 
     about = TextAreaField("Write about yourself", [
         Optional(),

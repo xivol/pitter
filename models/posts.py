@@ -18,9 +18,9 @@ class Post(XModel, SerializerMixin):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = Relation('User')
 
-    def __init__(self, author_id, content, share_options=SHARE_OPTIONS[0], created=datetime.now()):
+    def __init__(self, author_id, content, share_options=SHARE_OPTIONS[0], created=None):
         self.user_id = author_id
-        self.created_date = created
+        self.created_date = created if created else datetime.now()
         self.update(content, share_options)
 
     @property
@@ -33,8 +33,8 @@ class Post(XModel, SerializerMixin):
 
     @property
     def time_from_now(self):
-        # print(datetime.now() - self.created_date)
-        return str(datetime.now() - self.created_date)
+        from humanize import naturaldelta
+        return naturaldelta(datetime.now() - self.created_date) + ' ago'
 
     def update(self, content, share_options):
         self.content = content

@@ -12,16 +12,16 @@ class UserFeedViewModel(XPageModel, NavigationViewModel):
     __request_params__ = {USER_PARAM.name}
     __template_name__ = 'timeline.html'
 
-    def __init__(self, **url_providers):
-        super().__init__('User')
+    def __init__(self, title='User', **url_providers):
+        super().__init__(title)
         self.user = None
         self.urls = url_providers
 
     def on_request(self, request):
         self.user = None
         return get_user(self, self.on_user_found,
-                 on_user_not_found=lambda: abort(404),
-                 on_param_error=lambda: abort(400))
+                        on_user_not_found=lambda k, v: abort(404, k, v),
+                        on_param_error=lambda x: abort(400, x))
 
     def on_user_found(self, user):
         self.user = user
@@ -30,10 +30,7 @@ class UserFeedViewModel(XPageModel, NavigationViewModel):
     @property
     def feed(self):
         # TODO: filter public
-        if self.user is not None:
-            return sorted(self.user.posts,key=lambda p: p.created_date, reverse=True)
-        else:
-            return Post.all()
+        return sorted(self.user.posts, key=lambda p: p.created_date, reverse=True)
 
     @property
     def new_post_form(self):

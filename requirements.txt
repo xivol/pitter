@@ -1,9 +1,12 @@
 werkzeug
-wtforms
 jinja2
-sqlalchemy
-inflection
+
 flask
 flask_login
+wtforms
 flask_wtf
+sqlalchemy
 flask_sqlalchemy_session
+
+humanize
+inflection

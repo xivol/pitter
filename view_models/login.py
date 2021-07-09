@@ -29,4 +29,4 @@ class LoginViewModel(XFormPage, XNavigationMixin):
 
     @property
     def navigation(self):
-        return [XNav('Sign Up', url_for('auth.register'), 'btn-outline-primary')]
+        return [XNav('Sign Up', url_for('auth.register'), 'btn-light')]

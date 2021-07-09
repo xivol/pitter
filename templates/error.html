@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <input type="hidden" value="{{model.code}}">
+    <h1>{{model.title}}</h1>
+    <div class="">
+        {{model.description}}
+    </div>
+{% endblock %}

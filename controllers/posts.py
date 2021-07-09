@@ -1,27 +1,22 @@
 from flask import request, redirect, current_app, abort
 from flask_login import current_user
 
+from controllers.user import UserController
 from view_models.forms.post import NewTextPostForm
-from view_models.timeline import IndexViewModel
-from controllers.params.post import POST_PARAM
+from view_models.index import IndexViewModel
 from x_app.controller import XController
 
 
 class PostsController(XController):
     def setup_endpoints(self):
-        super().register_view_model('/', IndexViewModel, 'latest')
+        super().register_view_model('/',
+                                    IndexViewModel,
+                                    'latest',
+                                    model_config=UserController.get_url_providers())
         super().register_view_func('/post/new',
                                    self.new_post,
                                    'new',
                                    methods=['POST'])
-        # super().register_view_func(f'/post/delete/{POST_PARAM}',
-        #                            self.delete_post,
-        #                            'delete',
-        #                            methods=['POST'])
-        # super().register_view_func(f'/post/edit/{POST_PARAM}',
-        #                            self.edit_post,
-        #                            'edit',
-        #                            methods=['POST'])
 
     def new_post(self):
         form = NewTextPostForm()

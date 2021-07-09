@@ -14,11 +14,18 @@ class XApp(Flask):
                 self.config.from_object(config)
 
         if data:
-            self.data_provider = data
-            self.__db_scope = data.setup_scope(self)
+            if isinstance(data, type):
+                self.data_provider = data(self.config['CONNECTION_STRING'])
+            else:
+                self.data_provider = data
+            self.data_provider.init_app(self)
+
         if identity:
-            self.identity_provider = identity
-            identity.init_app(app=self)
+            if isinstance(data, type):
+                self.identity_provider = identity()
+            else:
+                self.identity_provider = identity
+            self.identity_provider.init_app(self)
 
         with self.app_context():
             self.setup_data_providers()

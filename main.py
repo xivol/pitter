@@ -1,11 +1,21 @@
 from flask import current_app
 
 from x_app.app import XApp
-from x_app.data_provider import SQLiteDataProvider
+from x_app.data_provider import XDataProvider
 from x_app.identity_provider import XIdentityProvider
 
 from models.users import User
 from models.posts import Post
+
+
+class SQLiteDataProvider(XDataProvider):
+    def __init__(self, filename, echo=False):
+        if not filename or not filename.strip():
+            raise ValueError("Необходимо указать имя файла базы данных.")
+
+        conn_str = f'sqlite:///{filename.strip()}?check_same_thread=False'
+
+        super().__init__(conn_str, echo)
 
 
 class UserIdentity(XIdentityProvider):
@@ -40,17 +50,19 @@ class FirstApp(XApp):
         AuthController.add_to_app(self, url_prefix='/auth')
         from controllers.user import UserController
         UserController.add_to_app(self, url_prefix='/user')
+        from controllers.error import ErrorController
+        ErrorController.add_to_app(self, url_prefix='/error')
 
     def setup_data_providers(self):
         User.setup_table()
         Post.setup_table()
 
     def setup_identity_providers(self):
-        current_app.identity_provider.user_loader(User.get)
+        self.identity_provider.user_loader(User.get)
 
 
 if __name__ == '__main__':
     app = FirstApp(config='application.cfg',
-                   identity=UserIdentity(),
-                   data=SQLiteDataProvider("../pitter/data/blogs.sqlite"))
+                   identity=UserIdentity,
+                   data=XDataProvider)
     app.start()

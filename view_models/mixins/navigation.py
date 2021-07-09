@@ -6,7 +6,7 @@ class NavigationViewModel(XNavigationMixin):
     @property
     def navigation(self):
         if not current_app.identity_provider.current_user.is_authenticated:
-            return [XNav('Sign In', url_for('auth.login'), 'btn-outline-secondary'),
-                    XNav('Sign Up', url_for('auth.register'), 'btn-outline-primary')]
+            return [XNav('Sign In', url_for('auth.login'), 'btn-secondary'),
+                    XNav('Sign Up', url_for('auth.register'), 'btn-light')]
         else:
-            return [XNav('Sign Out', url_for('auth.logout'), 'btn-outline-secondary')]
+            return [XNav('Sign Out', url_for('auth.logout'), 'btn-secondary')]

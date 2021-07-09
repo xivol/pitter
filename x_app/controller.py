@@ -42,4 +42,5 @@ class XController:
 
     @classmethod
     def add_to_app(cls, app, **config):
-        app.register_blueprint(cls().__bp, **config)
+        c = cls()
+        c.register_in_app(app, **config)

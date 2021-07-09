@@ -9,7 +9,7 @@ class XDataProvider:
         self.__engine = sqlalchemy.create_engine(connection_string, echo=echo)
         self.__session_maker = orm.sessionmaker(bind=self.__engine)
 
-    def setup_scope(self, app):
+    def init_app(self, app):
         return flask_scoped_session(self.__session_maker, app=app)
 
     def connect(self):
@@ -37,20 +37,3 @@ class XDataProvider:
             session.commit()
         finally:
             session.close()
-
-    # def update(self, *items):
-    #     session = self.connect()
-    #     try:
-    #         session.commit()
-    #     finally:
-    #         session.close()
-
-
-class SQLiteDataProvider(XDataProvider):
-    def __init__(self, filename, echo=False):
-        if not filename or not filename.strip():
-            raise ValueError("Необходимо указать имя файла базы данных.")
-
-        conn_str = f'sqlite:///{filename.strip()}?check_same_thread=False'
-
-        super().__init__(conn_str, echo)

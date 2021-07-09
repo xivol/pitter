@@ -121,8 +121,7 @@ class DeleteUserPostViewModel(BasicPostFormViewModel):
         self.title = f'Delete message posted on {self.post.created_date}'
 
         form = DeleteTextPostForm()
-        form.title = "Are you sure?"
-        form.message = "You are about to delete this message. This action is irreversible."
+        form.message = "You are about to delete this publication. This action is irreversible."
 
         if request.method == 'GET':
             form.set_post(post)

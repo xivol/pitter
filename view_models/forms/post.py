@@ -29,8 +29,12 @@ class BasicTextPostForm(FlaskForm):
 
 
 class EditTextPostForm(BasicTextPostForm):
-    message = TextAreaField('Edit message:', [DataRequired()])
+    message = TextAreaField('Message', [DataRequired()])
     visibility = SelectField('Visibility', choices=SHARE_OPTIONS)
+
+    def __init__(self):
+        super().__init__()
+        self.title = 'Edit your publication'
 
     def set_post(self, post):
         super().set_post(post)
@@ -41,7 +45,7 @@ class EditTextPostForm(BasicTextPostForm):
 class DeleteTextPostForm(BasicTextPostForm):
     def __init__(self):
         super().__init__()
-        self.title = 'Delete message?'
+        self.title = 'Delete your publication'
         self.message = ''
 
 # from flask_wtf.file import FileField, FileAllowed, FileRequired

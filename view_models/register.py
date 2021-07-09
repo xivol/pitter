@@ -27,6 +27,6 @@ class RegisterViewModel(XFormPage, XNavigationMixin):
 
     @property
     def navigation(self):
-        return [XNav('Sign In', url_for('auth.login'), 'btn-outline-primary')]
+        return [XNav('Sign In', url_for('auth.login'), 'btn-light')]
 
 

@@ -1,5 +1,34 @@
 body {
     background-color: #eeeeee;
+    background-image: url('y-so-serious-white.png');
+}
+
+.bg-yandex {
+  color: #212529!important;
+  background-color: #ffd21f!important;
+}
+
+.btn-yandex {
+  color: #212529!important;
+  background-color: #ffd21f!important;
+  border-color: #ffd21f!important;
+}
+
+.card-header-yandex {
+  background-color: rgb(255, 210, 31, 0.4)!important;
+}
+
+.btn-link {
+  color: #212529!important;
+  text-decoration: none!important;
+}
+
+.card-link {
+    color: #cca300!important;
+}
+
+.card-link:hover {
+    color: #ffd21f!important;
 }
 
 .h7 {
