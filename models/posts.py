@@ -4,12 +4,12 @@ from sqlalchemy import *
 from sqlalchemy.orm import relation as Relation
 
 from x_app.model import XModel
-from sqlalchemy_serializer import SerializerMixin
+#from sqlalchemy_serializer import SerializerMixin
 
 SHARE_OPTIONS = ['Public', 'Friends', 'Just Me']
 
 
-class Post(XModel, SerializerMixin):
+class Post(XModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     content = Column(String, nullable=False)
     created_date = Column(DateTime, default=datetime.now)

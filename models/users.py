@@ -6,10 +6,10 @@ from sqlalchemy.orm import relation as Relation
 
 from x_app.model import XModel
 from flask_login import UserMixin
-from sqlalchemy_serializer import SerializerMixin
+#from sqlalchemy_serializer import SerializerMixin
 
 
-class User(XModel, UserMixin, SerializerMixin):
+class User(XModel, UserMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String, index=True, unique=True,)
     email = Column(String, index=True, unique=True)
