@@ -39,7 +39,7 @@ class UserIdentity(XIdentityProvider):
         return None
 
 
-class FirstApp(XApp):
+class PitterApp(XApp):
     def setup_views(self):
         pass
 
@@ -61,12 +61,11 @@ class FirstApp(XApp):
         self.identity_provider.user_loader(User.get)
 
 
-def start():
-    app = FirstApp(config='application.cfg',
-                   identity=UserIdentity,
-                   data=XDataProvider)
-    app.start()
+def pitter():
+    return PitterApp(config='application.cfg',
+                    identity=UserIdentity,
+                    data=XDataProvider)
 
 
 if __name__ == '__main__':
-    start()
+    pitter().run()
