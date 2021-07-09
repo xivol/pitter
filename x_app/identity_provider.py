@@ -3,6 +3,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, logout_user, current_user
 
 
+class XIdentityException(Exception):
+    def __init__(self, **data):
+        self.data = data
+
+
+class UserNotFoundError(XIdentityException):
+    pass
+
+
+class WrongPasswordError(XIdentityException):
+    pass
+
+
 class XIdentityProvider(LoginManager):
     def login(self, user, **options):
         login_user(user, **options)
@@ -35,8 +48,9 @@ class XIdentityProvider(LoginManager):
     def try_login(self, **userdata):
         u = self.find_user(**userdata)
         if not u:
-            return None
+            raise UserNotFoundError(**userdata)
         if self.verify(u, **userdata):
-            self.login(u, remember=userdata['remember_me'])
+            r = userdata.get('remember_me', False)
+            self.login(u, remember=r)
             return u
-        return None
+        raise WrongPasswordError(**userdata)

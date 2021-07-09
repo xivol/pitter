@@ -4,26 +4,30 @@
     <h1>{{model.title}}</h1>
     <form action="" method="post">
         {{ model.form.hidden_tag() }}
-        <p>
-            {{ model.form.email.label }}<br>
-            {{ model.form.email(class="form-control", type="email") }}<br>
+        <div class="form-group">
+            {{ model.form.email.label }}
+            {{ model.form.email(class="form-control", type="email") }}
             {% for error in model.form.email.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>
-            {{ model.form.password.label }}<br>
-            {{ model.form.password(class="form-control", type="password") }}<br>
+        </div>
+        <div class="form-group">
+            {{ model.form.password.label }}
+            {{ model.form.password(class="form-control", type="password") }}
             {% for error in model.form.password.errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
             {% endfor %}
-        </p>
-        <p>{{ model.form.remember_me() }} {{ model.form.remember_me.label }}</p>
-        <p>{{ model.form.submit(type="submit", class="btn btn-yandex") }}</p>
-        <div>{{ message }}</div>
+        </div>
+        <div class="form-group">
+            {{ model.form.remember_me() }}
+            {{ model.form.remember_me.label }}
+        </div>
+        <div class="form-group">
+            {{ model.form.submit(type="submit", class="btn btn-yandex") }}
+        </div>
     </form>
 {% endblock %}

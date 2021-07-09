@@ -1,4 +1,4 @@
-from flask import current_app, url_for
+from flask import current_app, url_for, flash
 from werkzeug.utils import redirect
 
 from view_models.forms.register import RegisterForm
@@ -17,10 +17,14 @@ class RegisterViewModel(XFormPage, XNavigationMixin):
 
     def on_form_success(self, form):
         try:
-            current_app.identity_provider.register(**form.get_user_data())
-        except:
-            self.on_form_error(form)
-        return redirect(f'/user/{form.username.data}')
+            data = form.get_user_data()
+            current_app.identity_provider.register(**data)
+            current_app.identity_provider.try_login(**data)
+            return redirect(f'/user/{form.username.data}')
+        except Exception as err:
+            flash(err.args,'danger')
+            return self.on_form_error(form)
+
 
     def on_form_error(self, form):
         return self.render_template()

@@ -17,7 +17,7 @@ class User(XModel, UserMixin, SerializerMixin):
     created_date = Column(DateTime, default=datetime.datetime.now)
 
     first_name = Column(String)
-    last_name = Column(String, nullable=True)
+    last_name = Column(String, default='')
     description = Column(String, nullable=True)
     profile_image = Column(String, default='profile-icon.svg')
 

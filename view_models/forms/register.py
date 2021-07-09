@@ -12,8 +12,8 @@ class Unique:
 
     def __call__(self, form, field):
         value = field.data
-        if self.field.class_.query(field == value).first():
-            raise ValidationError(f"{self.field} must be unique")
+        if self.field.class_.query(self.field == value).first():
+            raise ValidationError(f"{self.field.key.capitalize()} must be unique")
 
 
 class RegisterForm(FlaskForm):

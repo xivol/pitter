@@ -1,78 +1,79 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>{{model.title}}</h1>
-    {% if model.message %}
-    <div class="alert alert-danger">
-        {{model.message}}
+<h1>{{model.title}}</h1>
+{% if model.message %}
+<div class="alert alert-danger">
+    {{model.message}}
+</div>
+{% endif %}
+<form action="" method="post">
+    {{ model.form.hidden_tag() }}
+    <div class="form-group">
+        {{ model.form.email.label }}
+        {{ model.form.email(class="form-control", type="email") }}
+        {% for error in model.form.email.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
     </div>
-    {% endif %}
-    <form action="" method="post">
-        {{ model.form.hidden_tag() }}
-        <p>
-            {{ model.form.email.label }}<br>
-            {{ model.form.email(class="form-control", type="email") }}<br>
-            {% for error in model.form.email.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-        <p>
-            {{ model.form.password.label }}<br>
-            {{ model.form.password(class="form-control", type="password") }}<br>
-            {% for error in model.form.password.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-        <p>
-            {{ model.form.password_confirm.label }}<br>
-            {{ model.form.password_confirm(class="form-control", type="password") }}<br>
-            {% for error in model.form.password_confirm.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-        <p>
-            {{ model.form.username.label }}<br>
-            {{ model.form.username(class="form-control") }}<br>
-            {% for error in model.form.username.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-         <p>
-            {{ model.form.first_name.label }}<br>
-            {{ model.form.first_name(class="form-control") }}<br>
-            {% for error in model.form.first_name.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-                 <p>
-            {{ model.form.last_name.label }}<br>
-            {{ model.form.last_name(class="form-control") }}<br>
-            {% for error in model.form.last_name.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-        <p>
-            {{ model.form.about.label }}<br>
-            {{ model.form.about(class="form-control") }}<br>
-            {% for error in model.form.about.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </p>
-        <p>{{ model.form.submit(type="submit", class="btn btn-yandex") }}</p>
-        {{message}}
-    </form>
+    <div class="form-group">
+        {{ model.form.password.label }}
+        {{ model.form.password(class="form-control", type="password") }}
+        {% for error in model.form.password.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ model.form.password_confirm.label }}
+        {{ model.form.password_confirm(class="form-control", type="password") }}
+        {% for error in model.form.password_confirm.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ model.form.username.label }}
+        {{ model.form.username(class="form-control") }}
+        {% for error in model.form.username.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ model.form.first_name.label }}
+        {{ model.form.first_name(class="form-control") }}
+        {% for error in model.form.first_name.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ model.form.last_name.label }}
+        {{ model.form.last_name(class="form-control") }}
+        {% for error in model.form.last_name.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ model.form.about.label }}
+        {{ model.form.about(class="form-control") }}
+        {% for error in model.form.about.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ model.form.submit(type="submit", class="btn btn-yandex") }}
+    </div>
+</form>
 {% endblock %}
