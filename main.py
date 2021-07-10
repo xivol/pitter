@@ -59,6 +59,7 @@ class PitterApp(XApp):
 
     def setup_identity_providers(self):
         self.identity_provider.user_loader(User.get)
+        self.identity_provider.login_view = 'auth.login'
 
 
 def pitter():

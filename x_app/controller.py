@@ -1,4 +1,6 @@
 from abc import abstractmethod
+
+from flask_login import login_required
 from inflection import underscore
 import flask
 
@@ -27,9 +29,17 @@ class XController:
         model_config = {}
         if 'model_config' in config:
             model_config = config.pop('model_config')
-        self.__bp.add_url_rule(rule,
-                               view_func=view_model.as_view(endpoint, **model_config),
-                               **config)
+
+        protect = False
+        if 'login_required' in config:
+            protect = config.pop('login_required')
+
+        if protect:
+            vf = login_required(view_model.as_view(endpoint, **model_config))
+        else:
+            vf = view_model.as_view(endpoint, **model_config)
+
+        self.__bp.add_url_rule(rule, view_func=vf, **config)
 
     def register_view_func(self, rule, view_func, endpoint, **config):
         self.__bp.add_url_rule(rule,

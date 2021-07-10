@@ -1,4 +1,5 @@
 from flask import url_for, current_app
+from flask_login import login_required
 
 from x_app.controller import XController
 from controllers.params.user import USER_PARAM
@@ -11,10 +12,12 @@ class UserController(XController):
     def setup_endpoints(self):
         super().register_view_model(f'/{USER_PARAM}/post/{POST_PARAM}/edit',
                                     EditUserPostViewModel,
-                                    'post-edit')
+                                    'post-edit',
+                                    login_required=True)
         super().register_view_model(f'/{USER_PARAM}/post/{POST_PARAM}/delete',
                                     DeleteUserPostViewModel,
-                                    'post-delete')
+                                    'post-delete',
+                                    login_required=True)
 
         super().register_view_model(f'/{USER_PARAM}/post/{POST_PARAM}',
                                     UserPostViewModel,

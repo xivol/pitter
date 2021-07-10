@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 from flask import request, flash, url_for, redirect, current_app
 from flask_sqlalchemy_session import current_session
@@ -57,8 +57,8 @@ class BasicPostFormViewModel(XFormPage, NavigationViewModel):
 
     def on_user_found(self, user):
         self.user = user
-        if not user.is_authenticated:
-            abort(401)
+        if user != current_app.identity_provider.current_user:
+            abort(403)
 
         return get_post(self, self.on_post_found,
                         on_post_not_found=lambda x, v: abort(404),
